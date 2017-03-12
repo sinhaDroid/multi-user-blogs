@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Developer | Login{% endblock %}
+
+{% block content %}
+    {% from "__formhelpers.html" import render_form %}
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="form-styled" method="post" action="/user/login">
+                <h1>Sign In</h1>
+                {{ render_form(form, '', 'form-control') }}
+                <div class="form-group">
+                    <input class="btn btn-success" type="submit" value="Sign In">
+                    <a href="/user/register" class="btn btn-info">Sign Up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

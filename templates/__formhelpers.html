@@ -1,0 +1,27 @@
+{% macro render_field(field, label_class, field_class) %}
+    <div class="form-group">
+        {{ field.label(class=label_class) }}
+        {% if field.errors %}
+            {{ field( **{'class': field_class + ' error', 'data-placeholder': field.description} ) }}
+            {% for error in field.errors %}
+            <span class="label label-danger">{{ error }}</span>
+            {% endfor %}
+        {%  else %}
+            {{ field( **{'class': field_class, 'data-placeholder': field.description} ) }}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_form(form, label_class, field_class) %}
+    {% if form.csrf_token %}
+    {{ form.csrf_token }}
+    {% endif %}
+    {% if form.key %}
+        {{ form.key }}
+    {% endif %}
+    {% for field in form %}
+        {% if field.type != 'CSRFTokenField' and field.type != 'HiddenField' %}
+            {{ render_field(field, label_class, field_class) }}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

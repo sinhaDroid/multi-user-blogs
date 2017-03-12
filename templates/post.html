@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Developer | View{% endblock %}
+
+{% block content %}
+    {% from "__formhelpers.html" import render_form %}
+    {% if post %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="post-details">
+                <h1 class="post-title">{{ post.title }}</h1>
+                <h3 class="post-subject">{{ post.subject }}</h3>
+                {% if user and post.author != user %}
+                    <form id="like-form" method="post" action="/post/like">
+                        {{ render_form(likeForm, '', 'form-control') }}
+                    </form>
+                {% endif %}
+                <h4 class="post-author">
+                    <a class="link-author" href="/author/{{ post.author }}">
+                    <em>{{ post.author }}</em>
+                    </a> {{ post.created | datetime}}
+                </h4>
+
+                <p class="post-content">{{ post.content }}</p>
+
+                <h4 id="like-title">
+                    {{ post.likes }} likes
+                    {% if post.author != user %}
+                        <a>
+                        {% if liked.liked == true %}
+                            <span id="like-btn" class="glyphicon glyphicon-thumbs-down" title="Dislike this"></span>
+                        {% else %}
+                            <span id="like-btn" class="glyphicon glyphicon-thumbs-up" title="Like this"></span>
+                        {% endif %}
+                        </a>
+                    {% endif %}
+                    {% if post.author == user %}
+                    <a class="post-btn" href="/post/edit?key={{ post.key.urlsafe() }}" title="Edit Post">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a class="post-btn" href="/post/delete?key={{ post.key.urlsafe() }}" title="Delete Post">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                    {% endif %}
+                </h4>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <h1>That post doesn't seem to exist</h1>
+                <h5>If you just created it, try again in a few minutes. Otherwise, go <a href="/">checkout</a> some other posts.</h5>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if user and post %}
+        <div class="row">
+            <div class="col-xs-12">
+                <form class="form-styled form-comment" method="post" action="/comment/create">
+                    {{ render_form(form, '', 'form-control') }}
+                    <div class="form-group">
+                        <input class="btn btn-success" type="submit" value="Comment">
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if comments %}
+        <div class="row">
+        {% for c in comments %}
+            <div class="col-xs-12">
+                <div class="comment">
+                    <h3>
+                        {{ c.author }} commented {{ c.created | datetime }}
+                        {% if c.author == user %}
+                        <small>
+                            <a class="post-btn" href="/comment/edit?key={{ c.key.urlsafe() }}" title="Edit Comment">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a class="post-btn" href="/comment/delete?key={{ c.key.urlsafe() }}" title="Delete Comment">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </small>
+                        {% endif %}
+                    </h3>
+                    <p>{{ c.content }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock %}

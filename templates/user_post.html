@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Developer | Author{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% if posts %}
+            {% for p in posts %}
+
+            <div class="post-recent">
+                <h6 class="post-recent-details">{{ p.created | datetime }}</h6>
+                <h3 class="post-recent-title">{{ p.title }}</h3>
+                <h4 class="post-recent-subject">{{ p.subject }}</h4>
+                <a class="post-recent-content" href="/post/view?key={{ p.key.urlsafe() }}">
+                    <p>{{ p.content | shorten }}</p>
+                </a>
+                <a href="/post/view?key={{ p.key.urlsafe() }}">Read more</a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-xs-12">
+            <div class="container-pager">
+                {% if offset > 0 %}
+                    <a href="/?offset={{ offset - limit }}" class="btn btn-default" title="Previous Page">&lt;&lt;</a>
+                {% else %}
+                    <a href="#" class="btn btn-default btn-inactive">&lt;&lt;</a>
+                {% endif %}
+                <a href="/?offset={{ offset + limit }}" class="btn btn-default" title="Next Page">&gt;&gt;</a>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            {% else %}
+                <p>There don't seem to be any posts. Why not <a href="/post/create">create</a> one?</p>
+            {% endif %}
+        </div>
+        </div>
+    </div>
+{% endblock %}
