@@ -1,7 +1,7 @@
-application: multi-user-blog
+application: multi-user-blogs
 version: 1
 runtime: python27
-api_version: 1
+api_version: 2
 threadsafe: yes
 
 handlers:
