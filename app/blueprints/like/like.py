@@ -29,6 +29,11 @@ class LikeHandler(Helper):
             self.redirect('/')
             return
 
+        if user.username == post.author:
+            error = 'you can\'t like or unlike you own post'
+            self.render("index.html", error = error)
+            return
+
         # is the post liked by this user already?
         try:
             liked = Like.query(Like.owner == user.key, Like.post == Key(urlsafe=form.key.data)).get()
