@@ -18,9 +18,13 @@ import webapp2
 
 from app.helpers import Helper, SECRET, J, datetimefilter, shortenfilter
 from app.blueprints.user import RegisterHandler, LoginHandler, LogoutHandler
-from app.blueprints.post import PostCreateHandler, PostEditHandler, PostHandler, PostDeleteHandler
+from app.blueprints.post import (
+    PostCreateHandler, PostEditHandler, PostHandler, PostDeleteHandler
+    )
 from app.blueprints.filter import DefaultHandler, AuthorHandler
-from app.blueprints.comment import CommentCreateHandler, CommentEditHandler, CommentDeleteHandler
+from app.blueprints.comment import (
+    CommentCreateHandler, CommentEditHandler, CommentDeleteHandler
+    )
 from app.blueprints.like import LikeHandler
 
 
